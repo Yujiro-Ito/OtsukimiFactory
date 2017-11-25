@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	//---fields---
 	private WorkArea[] _workAreas;
 	private float _time;
-	private int _score;
+	private float _score;
 	private bool _finish;
 
 	//---propaties---
@@ -39,5 +39,10 @@ public class GameManager : MonoBehaviour {
 			_time--;
 		}
 		_finish = true;
+	}
+
+	//スコアアップ
+	public void ScoreUp(float score){
+		_score += score;
 	}
 }

@@ -9,9 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: RabbitData
+  m_Name: Max
   m_EditorClassIdentifier: Assembly-CSharp::RabbitData
-  nickName: 
-  Propare: 0
-  Model: {fileID: 0}
-  Max_Power: 0
+  nickName: "\u30DE\u30C3\u30AF\u30B9"
+  Propare: 2
+  Max_Power: 50

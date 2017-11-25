@@ -6,6 +6,8 @@ using System;
 
 public class RabbitWork : MonoBehaviour {
 	//---consts---
+	private const float NORMAL_SCORE = 1f;
+	private const float PROPARE_SCORE = 3f;
 	//---fields---
 	[SerializeField]
 	private RabbitData _myData;
@@ -17,6 +19,7 @@ public class RabbitWork : MonoBehaviour {
 	private Action<float> _powerAction;
 	private float _waitTime;
 	private float _powerRate;
+	private float _scoreRate;
 	
 	//---propaties---
 	public RabbitState CurrentState { get{ return _currentState; } set{ _currentState = value; }}
@@ -34,6 +37,7 @@ public class RabbitWork : MonoBehaviour {
 		_powerAction = (x) => {};
 		_powerRate = 1;
 		_waitTime = 1;
+		_scoreRate = NORMAL_SCORE;
 		//体力増減コルーチンの発動
 		StartCoroutine(_powerCoroutine());
 	}
@@ -52,6 +56,10 @@ public class RabbitWork : MonoBehaviour {
 	private IEnumerator _powerCoroutine(){
 		while(true){
 			_powerAction(_powerRate);
+			//働いてたらスコアアップ
+			if(_currentState == RabbitState.Work){
+				_gameManager.ScoreUp(_scoreRate);
+			}
 			yield return new WaitForSeconds(_waitTime);
 		}
 	}
@@ -89,6 +97,7 @@ public class RabbitWork : MonoBehaviour {
 		WorkArea area = GetWorkArea(xzPosition);
 		SetState(area);
 		SetJob(area);
+		UpdateScoreRate(area);
 	}
 
 	//ウサギの状態を変更するメソッド
@@ -99,6 +108,11 @@ public class RabbitWork : MonoBehaviour {
 	//ウサギの労働場所を変更する場所
 	private void SetJob(WorkArea area){
 		_currentJob = (area == null) ? RabbitJob.None : area.TheAreaJob;
+	}
+
+	//スコアレートを更新
+	private void UpdateScoreRate(WorkArea area){
+		_scoreRate = (area != null && area.TheAreaJob == _myData.Propare) ? PROPARE_SCORE : NORMAL_SCORE;
 	}
 
 	//ワークエリアの選出
