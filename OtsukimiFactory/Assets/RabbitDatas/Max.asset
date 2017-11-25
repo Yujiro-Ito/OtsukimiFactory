@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Max
   m_EditorClassIdentifier: Assembly-CSharp::RabbitData
   nickName: "\u30DE\u30C3\u30AF\u30B9"
-  Propare: 2
-  Max_Power: 50
+  Propare: 0
+  Max_Power: 30

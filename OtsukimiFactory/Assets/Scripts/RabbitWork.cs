@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+[RequireComponent(typeof(RabbitAnimation))]
 public class RabbitWork : MonoBehaviour {
 	//---consts---
 	private const float NORMAL_SCORE = 1f;
@@ -11,7 +12,6 @@ public class RabbitWork : MonoBehaviour {
 	//---fields---
 	[SerializeField]
 	private RabbitData _myData;
-	private Animator _myAnimator;
 	private RabbitState _currentState;
 	private float _currentPower;
 	private RabbitJob _currentJob;
@@ -31,7 +31,6 @@ public class RabbitWork : MonoBehaviour {
 		//変数の初期化
 		_currentPower = _myData.Max_Power;
 		_currentState = RabbitState.Break;
-		_myAnimator = GetComponent<Animator>();
 		_currentJob = RabbitJob.Box;
 		_gameManager = GameObject.FindObjectOfType<GameManager>();
 		_powerAction = (x) => {};
@@ -148,7 +147,7 @@ public class RabbitData : ScriptableObject{
 
 //うさぎの動作状態
 public enum RabbitState{
-	Work,
+	Work = 0,
 	Break,
 	Catch
 }
