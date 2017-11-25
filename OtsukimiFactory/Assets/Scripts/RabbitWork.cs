@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using VRTK;
 
 [RequireComponent(typeof(RabbitAnimation))]
 public class RabbitWork : MonoBehaviour {
@@ -37,8 +38,17 @@ public class RabbitWork : MonoBehaviour {
 		_powerRate = 1;
 		_waitTime = 1;
 		_scoreRate = NORMAL_SCORE;
+		
 		//体力増減コルーチンの発動
 		StartCoroutine(_powerCoroutine());
+
+		//イベントの登録
+		VRTK_ControllerEvents[] controllerEvents = GameObject.FindObjectsOfType<VRTK_ControllerEvents>();
+		foreach(VRTK_ControllerEvents e in controllerEvents){
+			e.GripPressed += new ControllerInteractionEventHandler(DoGripPressed);
+			e.GripReleased += new ControllerInteractionEventHandler(DoGripReleased);
+		}
+		
 	}
 	
 	// Update is called once per frame
@@ -82,7 +92,7 @@ public class RabbitWork : MonoBehaviour {
 	///<summary>
 	///ウサギをキャッチした時に呼び出してね
 	///</summary>
-	public void Caught(){
+	private void Caught(){
 		_currentState = RabbitState.Catch;
 		_powerAction = (x) => {};
 	}
@@ -90,13 +100,23 @@ public class RabbitWork : MonoBehaviour {
 	///<summary>
 	///トリガーを離したときに呼び出すメソッド
 	///</summary>
-	public void ActionTrigger(Vector3 pos){
-		Vector2 xzPosition = new Vector2(pos.x, pos.z);
+	private void ActionTrigger(){
+		Vector2 xzPosition = new Vector2(transform.position.x, transform.position.z);
 		//エリア情報から労働状態と職種を設定
 		WorkArea area = GetWorkArea(xzPosition);
 		SetState(area);
 		SetJob(area);
 		UpdateScoreRate(area);
+	}
+
+	//イベントの登録メソッド
+	//つかんだ時
+	private void DoGripPressed(object sender, ControllerInteractionEventArgs e){
+		Caught();
+	}
+	//離したとき
+	private void DoGripReleased(object sender, ControllerInteractionEventArgs e){
+		ActionTrigger();
 	}
 
 	//ウサギの状態を変更するメソッド
