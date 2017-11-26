@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator))]
 public class RabbitAnimation : MonoBehaviour {
@@ -8,13 +9,18 @@ public class RabbitAnimation : MonoBehaviour {
 	private enum AnimationState{
 		Break = 0,
 		Work = 1,
-		Catch = 2
+		Catch = 2,
+		Walk = 3
 	}
 	//---fields---
 	private Animator _myAnimator;
 	private AnimationState _currentState;
 	private RabbitWork _myRabbitWork;
 	private RabbitState _oldState;
+	private bool _work;
+	private bool _break;
+	private NavMeshAgent _agent;
+	private Vector3 _originalPos;
 
 	//---methods---
 	// Use this for initialization
@@ -23,7 +29,11 @@ public class RabbitAnimation : MonoBehaviour {
 		_myAnimator = GetComponent<Animator>();
 		_currentState = AnimationState.Break;
 		_myRabbitWork = GetComponent<RabbitWork>();
+		_originalPos = transform.position;
 		SetAnimation();
+		_work = false;
+		_break = true;
+		_agent = GetComponent<NavMeshAgent>();
 	}
 	
 	// Update is called once per frame
@@ -42,16 +52,22 @@ public class RabbitAnimation : MonoBehaviour {
 
 	//アニメーションを変更
 	private void ChangeAnimation(RabbitState state){
+		_work = false;
+		_break = false;
 		//アニメーションの種類を決定
 		switch(state){
 			case RabbitState.Break:
-				_currentState = AnimationState.Break;
+				//_currentState = AnimationState.Break;
+				_break = true;
 				break;
 			case RabbitState.Work:
 				_currentState = AnimationState.Work;
+				ResetDestination();
+				_work = true;
 				break;
 			case RabbitState.Catch:
 				_currentState = AnimationState.Catch;
+				ResetDestination();
 				break;
 		}
 		SetAnimation();
@@ -60,6 +76,21 @@ public class RabbitAnimation : MonoBehaviour {
 	//アニメーションの値をセット
 	private void SetAnimation(){
 		_myAnimator.SetInteger("State", (int)_currentState);
+	}
+
+	private void OnCollisionEnter(Collision col){
+		if(col.transform.tag == "Floor" && _break){
+			_currentState = AnimationState.Walk;
+			SetAnimation();
+			Debug.Log(_originalPos);
+			_originalPos.y = transform.position.y;
+			_agent.SetDestination(_originalPos);
+			_break = false;
+		}
+	}
+
+	private void ResetDestination(){
+		_agent.ResetPath();
 	}
 
 

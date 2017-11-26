@@ -66,7 +66,7 @@ public class RabbitWork : MonoBehaviour {
 		while(true){
 			_powerAction(_powerRate);
 			//働いてたらスコアアップ
-			if(_currentState == RabbitState.Work){
+			if(_currentState == RabbitState.Work && _currentPower > 0){
 				_gameManager.ScoreUp(_scoreRate);
 			}
 			yield return new WaitForSeconds(_waitTime);
