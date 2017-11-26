@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 	//---propaties---
 	public WorkArea[] WorkAreas{ get{ return _workAreas; }}
 	public bool Finish{ get{ return _finish; }}
+	public float GameTime{ get {return _time; }}
+	public float Score{ get{ return _score; }}
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +35,7 @@ public class GameManager : MonoBehaviour {
 
 	//時間計算用コルーチン
 	private IEnumerator TimeCounter(){
-		while(_time > 1){
+		while(_time > 0){
 			yield return new WaitForSeconds(1);
 			_time--;
 		}

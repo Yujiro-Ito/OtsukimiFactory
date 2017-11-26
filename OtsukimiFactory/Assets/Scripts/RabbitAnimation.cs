@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 public class RabbitAnimation : MonoBehaviour {
@@ -12,6 +13,13 @@ public class RabbitAnimation : MonoBehaviour {
 		Catch = 2,
 		Walk = 3
 	}
+
+	private enum PowerState
+	{
+		normal,
+		smile,
+		tired
+	}
 	//---fields---
 	private Animator _myAnimator;
 	private AnimationState _currentState;
@@ -21,6 +29,9 @@ public class RabbitAnimation : MonoBehaviour {
 	private bool _break;
 	private Vector3 _originalPos;
 	private IEnumerator _moveDestination;
+	private Image _powerIcon;
+	private Sprite[] _iconSprites;
+
 
 	//---methods---
 	// Use this for initialization
@@ -33,6 +44,10 @@ public class RabbitAnimation : MonoBehaviour {
 		SetAnimation();
 		_work = false;
 		_break = true;
+		_powerIcon = transform.Find ("Canvas/PowerIcon").GetComponent<Image>();
+		_iconSprites = Resources.LoadAll<Sprite>("Img");
+		ChangeIcon ();
+		_myRabbitWork.PowerCallBack += ChangeIcon;
 	}
 	
 	// Update is called once per frame
@@ -56,8 +71,8 @@ public class RabbitAnimation : MonoBehaviour {
 		//アニメーションの種類を決定
 		switch(state){
 			case RabbitState.Break:
-				//_currentState = AnimationState.Break;
-				_break = true;
+				_currentState = AnimationState.Break;
+				//_break = true;
 				break;
 			case RabbitState.Work:
 				_currentState = AnimationState.Work;
@@ -122,6 +137,19 @@ public class RabbitAnimation : MonoBehaviour {
 		//コールバックの呼び出し
 		if(callback != null) callback();
 		Debug.Log("着いた！");
+	}
+
+	//アイコンを変更する
+	private void ChangeIcon(){
+		float maxPower = _myRabbitWork.PowerMax;
+		//疲労状況を見て画像を変更
+		if (_myRabbitWork.CurrentPower < maxPower * 0.3f) {
+			_powerIcon.sprite = _iconSprites [(int)PowerState.tired];
+		} else if (_myRabbitWork.CurrentPower < maxPower * 0.7f) {
+			_powerIcon.sprite = _iconSprites [(int)PowerState.normal];
+		} else {
+			_powerIcon.sprite = _iconSprites[(int)PowerState.smile];
+		}
 	}
 
 

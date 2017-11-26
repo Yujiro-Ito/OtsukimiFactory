@@ -9,6 +9,7 @@ TagManager:
   - FxTemporaire
   - Flore
   - Floor
+  - Controller
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Rabbit
   - 
   - 
   - 

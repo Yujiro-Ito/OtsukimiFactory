@@ -21,10 +21,15 @@ public class RabbitWork : MonoBehaviour {
 	private float _waitTime;
 	private float _powerRate;
 	private float _scoreRate;
+	private Action _powerCallBack;
+	private bool _hitController;
 	
 	//---propaties---
 	public RabbitState CurrentState { get{ return _currentState; } set{ _currentState = value; }}
 	public RabbitJob CurrentJob{ get{ return _currentJob; } set{ _currentJob = value; }}
+	public float CurrentPower{ get{ return _currentPower; }}
+	public float PowerMax{ get{ return _myData.Max_Power; }}
+	public Action PowerCallBack{ get{ return _powerCallBack; } set{ _powerCallBack = value; }}
 
 	//---methods---
 	// Use this for initialization
@@ -38,6 +43,7 @@ public class RabbitWork : MonoBehaviour {
 		_powerRate = 1;
 		_waitTime = 1;
 		_scoreRate = NORMAL_SCORE;
+		_hitController = false;
 		
 		//体力増減コルーチンの発動
 		StartCoroutine(_powerCoroutine());
@@ -65,6 +71,8 @@ public class RabbitWork : MonoBehaviour {
 	private IEnumerator _powerCoroutine(){
 		while(true){
 			_powerAction(_powerRate);
+			if (_powerCallBack != null)
+				_powerCallBack ();
 			//働いてたらスコアアップ
 			if(_currentState == RabbitState.Work && _currentPower > 0){
 				_gameManager.ScoreUp(_scoreRate);
@@ -112,7 +120,9 @@ public class RabbitWork : MonoBehaviour {
 	//イベントの登録メソッド
 	//つかんだ時
 	private void DoGripPressed(object sender, ControllerInteractionEventArgs e){
-		Caught();
+		if (_hitController) {
+			Caught ();
+		}
 	}
 	//離したとき
 	private void DoGripReleased(object sender, ControllerInteractionEventArgs e){
@@ -151,6 +161,19 @@ public class RabbitWork : MonoBehaviour {
 			}
 		}
 		return result;
+	}
+
+	//コントローラとのあたり判定
+	public void OnTriggerEnter(Collider col){
+		if (col.tag == "Controller") {
+			_hitController = true;
+		}
+	}
+
+	public void OnTriggerExit(Collider col){
+		if (col.tag == "Controller") {
+			_hitController = false;
+		}
 	}
 
 }
