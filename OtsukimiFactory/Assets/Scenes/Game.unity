@@ -140,7 +140,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 52640664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 153, y: 146, z: 0}
+  m_LocalPosition: {x: 153, y: 146, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 219109378}
@@ -1124,8 +1124,8 @@ Canvas:
   m_GameObject: {fileID: 219109374}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 939467292}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1143,8 +1143,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219109374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 318.5, y: 275, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.2800002, z: 100}
+  m_LocalScale: {x: 0.20994556, y: 0.20994556, z: 0.20994556}
   m_Children:
   - {fileID: 52640665}
   - {fileID: 2004568553}
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6605f978046dd414e84e4351c4d4a244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myData: {fileID: 11400000, guid: b3ba712aa59497e48b5998ff080aef59, type: 2}
+  _myData: {fileID: 0}
 --- !u!65 &321239707
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1677,6 +1677,11 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 189822, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
   m_PrefabInternal: {fileID: 759442744}
+--- !u!20 &939467292 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 2082592, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 2}
+  m_PrefabInternal: {fileID: 759442744}
 --- !u!1001 &1143892084
 Prefab:
   m_ObjectHideFlags: 0
@@ -1921,7 +1926,7 @@ GameObject:
   - component: {fileID: 1229342437}
   m_Layer: 0
   m_Name: WorkArea3
-  m_TagString: Untagged
+  m_TagString: WorkArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2264,7 +2269,7 @@ GameObject:
   - component: {fileID: 1386691121}
   m_Layer: 0
   m_Name: WorkArea1
-  m_TagString: Untagged
+  m_TagString: WorkArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2524,7 +2529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6605f978046dd414e84e4351c4d4a244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myData: {fileID: 11400000, guid: b3ba712aa59497e48b5998ff080aef59, type: 2}
+  _myData: {fileID: 0}
 --- !u!65 &1431576377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2734,7 +2739,7 @@ GameObject:
   - component: {fileID: 1486310936}
   m_Layer: 0
   m_Name: WorkArea2
-  m_TagString: Untagged
+  m_TagString: WorkArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4153,7 +4158,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2004568550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 153, y: 230, z: 0}
+  m_LocalPosition: {x: 153, y: 230, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 219109378}
@@ -4273,7 +4278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6605f978046dd414e84e4351c4d4a244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myData: {fileID: 11400000, guid: b3ba712aa59497e48b5998ff080aef59, type: 2}
+  _myData: {fileID: 0}
 --- !u!65 &2019170716
 BoxCollider:
   m_ObjectHideFlags: 0

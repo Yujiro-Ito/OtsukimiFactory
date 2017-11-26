@@ -30,6 +30,7 @@ public class RabbitWork : MonoBehaviour {
 	public float CurrentPower{ get{ return _currentPower; }}
 	public float PowerMax{ get{ return _myData.Max_Power; }}
 	public Action PowerCallBack{ get{ return _powerCallBack; } set{ _powerCallBack = value; }}
+	public RabbitJob PropareJob { get{ return _myData.Propare; }}
 
 	//---methods---
 	// Use this for initialization
