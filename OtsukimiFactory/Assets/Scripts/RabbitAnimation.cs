@@ -31,6 +31,7 @@ public class RabbitAnimation : MonoBehaviour {
 	private IEnumerator _moveDestination;
 	private Image _powerIcon;
 	private Sprite[] _iconSprites;
+	private GameObject _effect;
 
 
 	//---methods---
@@ -48,6 +49,7 @@ public class RabbitAnimation : MonoBehaviour {
 		_iconSprites = Resources.LoadAll<Sprite>("Img");
 		ChangeIcon ();
 		_myRabbitWork.PowerCallBack += ChangeIcon;
+		_effect = Resources.Load ("Propare") as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -108,6 +110,15 @@ public class RabbitAnimation : MonoBehaviour {
 			});
 			StartCoroutine(_moveDestination);
 			_break = false;
+		}
+
+		//エフェクトの生成
+		if(col.transform.tag == "WorkArea"){
+			transform.rotation = Quaternion.Euler (0, -90, 0);
+			RabbitJob job = col.transform.GetComponent<WorkArea> ().TheAreaJob;
+			if (job == _myRabbitWork.PropareJob) {
+				GameObject tmp = (GameObject)Instantiate (_effect, transform.position, Quaternion.Euler(-90, 0, 0));
+			}
 		}
 	}
 
