@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using System;
 
 [RequireComponent(typeof(Animator))]
 public class RabbitAnimation : MonoBehaviour {
@@ -19,8 +19,8 @@ public class RabbitAnimation : MonoBehaviour {
 	private RabbitState _oldState;
 	private bool _work;
 	private bool _break;
-	private NavMeshAgent _agent;
 	private Vector3 _originalPos;
+	private IEnumerator _moveDestination;
 
 	//---methods---
 	// Use this for initialization
@@ -33,7 +33,6 @@ public class RabbitAnimation : MonoBehaviour {
 		SetAnimation();
 		_work = false;
 		_break = true;
-		_agent = GetComponent<NavMeshAgent>();
 	}
 	
 	// Update is called once per frame
@@ -62,12 +61,10 @@ public class RabbitAnimation : MonoBehaviour {
 				break;
 			case RabbitState.Work:
 				_currentState = AnimationState.Work;
-				ResetDestination();
 				_work = true;
 				break;
 			case RabbitState.Catch:
 				_currentState = AnimationState.Catch;
-				ResetDestination();
 				break;
 		}
 		SetAnimation();
@@ -80,17 +77,48 @@ public class RabbitAnimation : MonoBehaviour {
 
 	private void OnCollisionEnter(Collision col){
 		if(col.transform.tag == "Floor" && _break){
+			Debug.Log("当たった！");
+			//歩くアニメーションに変更
 			_currentState = AnimationState.Walk;
 			SetAnimation();
-			Debug.Log(_originalPos);
-			_originalPos.y = transform.position.y;
-			_agent.SetDestination(_originalPos);
+			//移動処理の実行
+			if(_moveDestination != null) _moveDestination.Reset();
+			_moveDestination = MoveDestination(_originalPos, () => {
+				//アニメーションの終了コールバック
+				_currentState = AnimationState.Break;
+				SetAnimation();
+			});
+			StartCoroutine(_moveDestination);
 			_break = false;
 		}
 	}
 
-	private void ResetDestination(){
-		_agent.ResetPath();
+	//元の位置に戻るための処理
+	private IEnumerator MoveDestination(Vector3 destination, Action callback = null){
+		//初期設定
+		destination.y = transform.position.y;
+		Vector3 moveDir = Vector3.Normalize(destination - transform.position);
+
+		//まずは回転
+		float t = 0;
+		float speed = 1f;
+		Quaternion from = transform.rotation;
+		Quaternion to = Quaternion.LookRotation(destination - transform.position);
+		while(t < 1){
+			t += Time.deltaTime * speed;
+			transform.rotation = Quaternion.Slerp(from, to, t);
+			yield return new WaitForEndOfFrame();
+		}
+
+		//次に移動
+		while(Vector3.Magnitude(destination - transform.position) < 0.05f){
+			transform.Translate(moveDir);
+			moveDir = Vector3.Normalize(destination - transform.position);
+		}
+
+		//コールバックの呼び出し
+		if(callback != null) callback();
+		Debug.Log("着いた！");
 	}
 
 

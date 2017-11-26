@@ -144,6 +144,7 @@ public class RabbitWork : MonoBehaviour {
 			//エリア内にウサギがいたらそのエリアを返却
 			if(tmp.x + tmp.width / 2 > pos.x && pos.x > tmp.x - tmp.width / 2){
 				if(tmp.y + tmp.height / 2 > pos.y && pos.y > tmp.y - tmp.height / 2){
+					Debug.Log (area.TheAreaJob);
 					result = area;
 					break;
 				}

@@ -6,13 +6,11 @@ public class WorkArea : MonoBehaviour {
 	//---fields----
 	[SerializeField]
 	private RabbitJob _theAreaJob;
-	private Rect _rect;
 
 	//---propaties---
 	public Rect AreaRect { 
 		get{
-			if(_rect == null) _rect =  new Rect(transform.position.x, transform.position.z, transform.localScale.x, transform.localScale.z);
-			return _rect;
+			return new Rect(transform.position.x, transform.position.z, transform.localScale.x, transform.localScale.z);
 		}
 	}
 
