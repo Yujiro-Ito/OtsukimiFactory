@@ -114,7 +114,7 @@ public class RabbitAnimation : MonoBehaviour {
 
 		//エフェクトの生成
 		if(col.transform.tag == "WorkArea"){
-			transform.rotation = Quaternion.Euler (0, 90, 0);
+			transform.rotation = Quaternion.Euler (0, -90, 0);
 			RabbitJob job = col.transform.GetComponent<WorkArea> ().TheAreaJob;
 			if (job == _myRabbitWork.PropareJob) {
 				GameObject tmp = (GameObject)Instantiate (_effect, transform.position, Quaternion.Euler(-90, 0, 0));
