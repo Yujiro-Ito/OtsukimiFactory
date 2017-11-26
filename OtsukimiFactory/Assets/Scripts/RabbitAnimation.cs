@@ -76,13 +76,16 @@ public class RabbitAnimation : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter(Collision col){
+		//角度の初期設定
+		Vector3 rot = transform.rotation.eulerAngles;
+		transform.rotation = Quaternion.Euler (0, rot.y, 0);
+
 		if(col.transform.tag == "Floor" && _break){
 			Debug.Log("当たった！");
 			//歩くアニメーションに変更
 			_currentState = AnimationState.Walk;
 			SetAnimation();
 			//移動処理の実行
-			if(_moveDestination != null) _moveDestination.Reset();
 			_moveDestination = MoveDestination(_originalPos, () => {
 				//アニメーションの終了コールバック
 				_currentState = AnimationState.Break;
@@ -97,23 +100,23 @@ public class RabbitAnimation : MonoBehaviour {
 	private IEnumerator MoveDestination(Vector3 destination, Action callback = null){
 		//初期設定
 		destination.y = transform.position.y;
-		Vector3 moveDir = Vector3.Normalize(destination - transform.position);
 
 		//まずは回転
 		float t = 0;
 		float speed = 1f;
 		Quaternion from = transform.rotation;
 		Quaternion to = Quaternion.LookRotation(destination - transform.position);
-		while(t < 1){
+		while(t < 1f){
 			t += Time.deltaTime * speed;
 			transform.rotation = Quaternion.Slerp(from, to, t);
 			yield return new WaitForEndOfFrame();
 		}
 
 		//次に移動
-		while(Vector3.Magnitude(destination - transform.position) < 0.05f){
-			transform.Translate(moveDir);
-			moveDir = Vector3.Normalize(destination - transform.position);
+		while(Vector3.Magnitude(destination - transform.position) > 0.1f){
+			transform.rotation = Quaternion.LookRotation (destination - transform.position);
+			transform.Translate(Vector3.forward * 0.01f);
+			yield return new WaitForEndOfFrame ();
 		}
 
 		//コールバックの呼び出し
