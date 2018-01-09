@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: RabbitData
+  m_Name: Sarria
   m_EditorClassIdentifier: Assembly-CSharp::RabbitData
   nickName: 
   Propare: 0
