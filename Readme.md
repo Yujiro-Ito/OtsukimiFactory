@@ -9,5 +9,7 @@ VRGameJam 2017 Autumn で作成したゲームである。秋というテーマ�
 
 開発環境はWindows10/Unity2017/ViveでLibraryはSteamVRを使用している。
 
+私はメインプログラマーで、デザイナー一人とプログラマー二人で作成した。
+
 ## Auther
 Yujiro-Ito(https://github.com/Yujiro-Ito)
